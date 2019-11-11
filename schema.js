@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 const {
   GraphQLSchema,
   GraphQLObjectType,
@@ -6,13 +8,6 @@ const {
   GraphQLList,
   GraphQLNonNull,
 } = require('graphql');
-
-// Hardcoded Data
-const customersArr = [
-  { id: 1, name: 'Clark Kent', email: 'superman@email.com', age: 35 },
-  { id: 2, name: 'Bruce Wayne', email: 'batman@email.com', age: 30 },
-  { id: 3, name: 'Peter Parker', email: 'spiderman@email.com', age: 25 },
-];
 
 // Customer Type
 const CustomerType = new GraphQLObjectType({
@@ -37,6 +32,14 @@ const CustomerType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
+    customers: {
+      type: new GraphQLList(CustomerType),
+      async resolve(parentVal, args) {
+        const { data } = await axios.get('http://localhost:3000/customers');
+
+        return data;
+      },
+    },
     customer: {
       type: CustomerType,
       args: {
@@ -44,20 +47,20 @@ const RootQuery = new GraphQLObjectType({
           type: GraphQLInt,
         },
       },
-      resolve(parentVal, args) {
-        for (let i = 0; i < customersArr.length; i++) {
-          let curCustomer = customersArr[i];
+      async resolve(parentVal, args) {
+        // for (let i = 0; i < customersArr.length; i++) {
+        //   let curCustomer = customersArr[i];
 
-          if (curCustomer.id === args.id) {
-            return curCustomer;
-          }
-        }
-      },
-    },
-    customers: {
-      type: new GraphQLList(CustomerType),
-      resolve(parentVal, args) {
-        return customersArr;
+        //   if (curCustomer.id === args.id) {
+        //     return curCustomer;
+        //   }
+        // }
+
+        const { data } = await axios.get(
+          `http://localhost:3000/customers/${args.id}`
+        );
+
+        return data;
       },
     },
   },
