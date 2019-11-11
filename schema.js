@@ -58,6 +58,42 @@ const RootQuery = new GraphQLObjectType({
   },
 });
 
+// Mutations
+const mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    addCustomer: {
+      type: CustomerType,
+      args: {
+        name: {
+          type: new GraphQLNonNull(GraphQLString),
+        },
+        email: {
+          type: new GraphQLNonNull(GraphQLString),
+        },
+        age: {
+          type: new GraphQLNonNull(GraphQLInt),
+        },
+      },
+      async resolve(parentVal, args) {
+        const newCustomerObj = {
+          name: args.name,
+          email: args.email,
+          age: args.age,
+        };
+
+        const { data } = await axios.post(
+          'http://localhost:3000/customers',
+          newCustomerObj
+        );
+
+        return data;
+      },
+    },
+  },
+});
+
 module.exports = new GraphQLSchema({
   query: RootQuery,
+  mutation,
 });
