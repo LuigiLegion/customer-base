@@ -90,6 +90,21 @@ const mutation = new GraphQLObjectType({
         return data;
       },
     },
+    removeCustomer: {
+      type: CustomerType,
+      args: {
+        id: {
+          type: new GraphQLNonNull(GraphQLInt),
+        },
+      },
+      async resolve(parentVal, args) {
+        const { data } = await axios.delete(
+          `http://localhost:3000/customers/${args.id}`
+        );
+
+        return data;
+      },
+    },
   },
 });
 
