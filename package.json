@@ -1,0 +1,24 @@
+{
+  "name": "customer-base",
+  "version": "1.0.0",
+  "description": "Simple GraphQL server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuigiLegion/customer-base.git"
+  },
+  "author": "Tal Luigi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuigiLegion/customer-base/issues"
+  },
+  "homepage": "https://github.com/LuigiLegion/customer-base#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "nodemon": "^1.19.4"
+  }
+}
