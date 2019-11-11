@@ -48,14 +48,6 @@ const RootQuery = new GraphQLObjectType({
         },
       },
       async resolve(parentVal, args) {
-        // for (let i = 0; i < customersArr.length; i++) {
-        //   let curCustomer = customersArr[i];
-
-        //   if (curCustomer.id === args.id) {
-        //     return curCustomer;
-        //   }
-        // }
-
         const { data } = await axios.get(
           `http://localhost:3000/customers/${args.id}`
         );
